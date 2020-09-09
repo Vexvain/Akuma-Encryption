@@ -1,6 +1,8 @@
 # Symmetric Encryption
 
-A custom symmetric encryption algorithm I created. Use it to make plaintext unreadable by encrypting it with a key. 256 bit encryption; the key and IV must be 256 bits/32 bytes.
+A custom symmetric encryption algorithm I created. <br/>
+Use it to make plaintext unreadable by encrypting it with a key. <br/>
+256 bit encryption; the key and IV must be 256 bits/32 bytes.
 
 OpenSSL Library required for Code compilation.
 
