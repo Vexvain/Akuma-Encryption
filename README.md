@@ -27,7 +27,9 @@ I have included two example files in the `Code/Files` folder:
 
 - `Code/Files/key.bin` is an example key file that contains random hex characters which have been randomly generated. You can generate your own key file.
 
-To encrypt your file, use `./encrypt [PLAINTEXT FILE] [KEY FILE] [OUT FILE]`. example:
+To encrypt your file, use: `./encrypt [PLAINTEXT FILE] [KEY FILE] [OUT FILE]`. 
+
+Example:
 
     $ ./encrypt  Files/plaintext.txt  Files/key.bin  encrypted.bin
 
