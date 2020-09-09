@@ -6,71 +6,71 @@
 #include <stdbool.h>
 
 
-#define TAWNY_DEBUG 0  //DEBUG MODE 1 = DEBUG OUTPUT
+#define AKUMA_DEBUG 0  //DEBUG MODE 1 = DEBUG OUTPUT
 		       //	    0 = NO DEBUG OUTPUT
 
-#ifdef TAWNY_BLOCK_SIZE
-#undef TAWNY_BLOCK_SIZE
+#ifdef AKUMA_BLOCK_SIZE
+#undef AKUMA_BLOCK_SIZE
 #endif
 
-#ifdef TAWNY_BLOCK_SIZE_BYTES
-#undef TAWNY_BLOCK_SIZE_BYTES
+#ifdef AKUMA_BLOCK_SIZE_BYTES
+#undef AKUMA_BLOCK_SIZE_BYTES
 #endif
 
-#ifdef TAWNY_KEY_LENGTH
-#undef TAWNY_KEY_LENGTH
+#ifdef AKUMA_KEY_LENGTH
+#undef AKUMA_KEY_LENGTH
 #endif
 
-#ifdef TAWNY_KEY_LENGTH_BYTES
-#undef TAWNY_KEY_LENGTH_BYTES
+#ifdef AKUMA_KEY_LENGTH_BYTES
+#undef AKUMA_KEY_LENGTH_BYTES
 #endif
 
-#ifdef TAWNY_IV_LENGTH
-#undef TAWNY_IV_LENGTH
+#ifdef AKUMA_IV_LENGTH
+#undef AKUMA_IV_LENGTH
 #endif
 
-#ifdef TAWNY_IV_LENGTH_BYTES
-#undef TAWNY_IV_LENGTH_BYTES
+#ifdef AKUMA_IV_LENGTH_BYTES
+#undef AKUMA_IV_LENGTH_BYTES
 #endif
 
-#define TAWNY_BLOCK_SIZE 256
-#define TAWNY_BLOCK_SIZE_BYTES TAWNY_BLOCK_SIZE / 8
+#define AKUMA_BLOCK_SIZE 256
+#define AKUMA_BLOCK_SIZE_BYTES AKUMA_BLOCK_SIZE / 8
 
-#define TAWNY_KEY_LENGTH       256
-#define TAWNY_KEY_LENGTH_BYTES TAWNY_KEY_LENGTH / 8
+#define AKUMA_KEY_LENGTH       256
+#define AKUMA_KEY_LENGTH_BYTES AKUMA_KEY_LENGTH / 8
 
-#define TAWNY_IV_LENGTH 256
-#define TAWNY_IV_LENGTH_BYTES TAWNY_IV_LENGTH / 8
+#define AKUMA_IV_LENGTH 256
+#define AKUMA_IV_LENGTH_BYTES AKUMA_IV_LENGTH / 8
 
-#define TAWNY_UPDATE_IV         1
-#define TAWNY_UPDATE_KEY        2
-#define TAWNY_UPDATE_PLAINTEXT  3
-#define TAWNY_UPDATE_CIPHERTEXT 4
+#define AKUMA_UPDATE_IV         1
+#define AKUMA_UPDATE_KEY        2
+#define AKUMA_UPDATE_PLAINTEXT  3
+#define AKUMA_UPDATE_CIPHERTEXT 4
 
 
-struct TawnyMatrix {
+struct AkumaMatrix {
       	size_t rows;
       	size_t columns;
       	int table[4][8];
 };
 
-typedef struct __TAWNY_CTX {
+typedef struct __AKUMA_CTX {
       	size_t key_len;
       	size_t iv_len;
 
       	unsigned char * plaintext;
       	size_t plaintext_len;
 
-      	unsigned char key[TAWNY_KEY_LENGTH_BYTES];
-      	unsigned char iv[TAWNY_IV_LENGTH_BYTES];
+      	unsigned char key[AKUMA_KEY_LENGTH_BYTES];
+      	unsigned char iv[AKUMA_IV_LENGTH_BYTES];
 
-      	struct TawnyMatrix matrix;
+      	struct AkumaMatrix matrix;
 
-      	unsigned char keyround[TAWNY_BLOCK_SIZE_BYTES];
+      	unsigned char keyround[AKUMA_BLOCK_SIZE_BYTES];
 
       	unsigned char * ciphertext;
       	size_t ciphertext_len;
-} Tawny_CTX;
+} Akuma_CTX;
 
 struct sha256 {
       	char * plaintext;
@@ -152,7 +152,7 @@ size_t xor(unsigned char * md, size_t smd, unsigned char * buf1, size_t s1, unsi
       	return sz;
 }
 
-void show_matrix(struct TawnyMatrix * m) {
+void show_matrix(struct AkumaMatrix * m) {
       	for (int r = 0; r < 4; ++r) {
             	printf("[  ");
 
@@ -164,7 +164,7 @@ void show_matrix(struct TawnyMatrix * m) {
       	}
 }
 
-void Tawny_Init(Tawny_CTX * ctx) {
+void Akuma_Init(Akuma_CTX * ctx) {
 /* EMPTY CONTEXT STRUCT */
 
       	ctx->key_len            = 0;
@@ -178,12 +178,12 @@ void Tawny_Init(Tawny_CTX * ctx) {
       	memset(ctx->iv, '\0', sizeof(ctx->iv));
 }
 
-int Tawny_Update(int mode, Tawny_CTX * ctx, unsigned char * iv, unsigned char * key, unsigned char * plaintext, unsigned char * ciphertext, size_t plaintext_len, size_t ciphertext_len) {
+int Akuma_Update(int mode, Akuma_CTX * ctx, unsigned char * iv, unsigned char * key, unsigned char * plaintext, unsigned char * ciphertext, size_t plaintext_len, size_t ciphertext_len) {
       	int status = 0;
 
 /* UPDATE INITIALIZATION VECTOR */
 
-      	if (mode == TAWNY_UPDATE_IV) {
+      	if (mode == AKUMA_UPDATE_IV) {
             	size_t ctx_iv_size = sizeof(ctx->iv);
 
             	for (size_t i = 0; i < ctx_iv_size; ++i)
@@ -205,7 +205,7 @@ int Tawny_Update(int mode, Tawny_CTX * ctx, unsigned char * iv, unsigned char * 
 
 /* UPDATE KEY */
 
-      	else if (mode == TAWNY_UPDATE_KEY) {
+      	else if (mode == AKUMA_UPDATE_KEY) {
             	size_t ctx_key_size = sizeof(ctx->key);
 
             	for (size_t i = 0; i < ctx_key_size; ++i)
@@ -227,8 +227,8 @@ int Tawny_Update(int mode, Tawny_CTX * ctx, unsigned char * iv, unsigned char * 
 
 /* UPDATE PLAINTEXT */
 
-      	else if (mode == TAWNY_UPDATE_PLAINTEXT) {
-            	if (plaintext_len < TAWNY_BLOCK_SIZE_BYTES)
+      	else if (mode == AKUMA_UPDATE_PLAINTEXT) {
+            	if (plaintext_len < AKUMA_BLOCK_SIZE_BYTES)
                   	return 0;
 
 		ctx->plaintext = plaintext;
@@ -248,8 +248,8 @@ int Tawny_Update(int mode, Tawny_CTX * ctx, unsigned char * iv, unsigned char * 
 
 /* UPDATE CIPHERTEXT */
 
-      	else if (mode == TAWNY_UPDATE_CIPHERTEXT) {
-	    	if (ciphertext_len < TAWNY_BLOCK_SIZE_BYTES)
+      	else if (mode == AKUMA_UPDATE_CIPHERTEXT) {
+	    	if (ciphertext_len < AKUMA_BLOCK_SIZE_BYTES)
 			return 0;
 
 
@@ -282,12 +282,12 @@ int Tawny_Update(int mode, Tawny_CTX * ctx, unsigned char * iv, unsigned char * 
 }
 
 
-unsigned int Tawny_Encrypt(Tawny_CTX * ctx) {
-#if TAWNY_DEBUG
+unsigned int Akuma_Encrypt(Akuma_CTX * ctx) {
+#if AKUMA_DEBUG
       	printf("\n===== ENCRYPTION =====\n\n");
 #endif
 
-#if TAWNY_DEBUG
+#if AKUMA_DEBUG
         printf("Cipher Key:\t\t");
         print_bytes(ctx->key, sizeof(ctx->key));
 
@@ -335,18 +335,18 @@ unsigned int Tawny_Encrypt(Tawny_CTX * ctx) {
 /* CREATE FUNC LOCAL VARIABLES TO LIMIT STRUCT ACCESS */
 
       	size_t plaintext_len = (size_t)ctx->plaintext_len;
-      	size_t block_size = TAWNY_BLOCK_SIZE_BYTES;
+      	size_t block_size = AKUMA_BLOCK_SIZE_BYTES;
       	size_t nmemb = plaintext_len / block_size;
-      	size_t total_size = ((sizeof(unsigned char) * TAWNY_BLOCK_SIZE_BYTES) * nmemb);
+      	size_t total_size = ((sizeof(unsigned char) * AKUMA_BLOCK_SIZE_BYTES) * nmemb);
       	size_t matrix_columns = ctx->matrix.columns;
       	size_t matrix_rows = ctx->matrix.rows;
       	size_t pos = 0;
 
-      	char c_plaintext_block[TAWNY_BLOCK_SIZE_BYTES];
+      	char c_plaintext_block[AKUMA_BLOCK_SIZE_BYTES];
 
       	ctx->ciphertext = (unsigned char*)malloc(total_size);
 
-#if TAWNY_DEBUG
+#if AKUMA_DEBUG
       	printf("Plaintext length: \t%ld\nBlock size: \t\t%ld\nNumber of Blocks: \t%ld\nTotal Buffer Size: \t%ld\n\n", plaintext_len, block_size, nmemb, total_size);
 #endif
 
@@ -357,7 +357,7 @@ unsigned int Tawny_Encrypt(Tawny_CTX * ctx) {
             	memset(c_plaintext_block, '\0', sizeof(c_plaintext_block));
             	memcpy(c_plaintext_block, ctx->plaintext + (block_size * e), sizeof(c_plaintext_block));
 
-#if TAWNY_DEBUG
+#if AKUMA_DEBUG
             	printf("\n\n\t\tBlock %d ~\n\n", e);
             	printf("\nCurrent Block:  \t");
 
@@ -375,11 +375,11 @@ unsigned int Tawny_Encrypt(Tawny_CTX * ctx) {
 
 /* XOR CURRENT KEYROUND & "PLAINTEXT" MEMORY -> "PLAINTEXT" */
 
-            	if (!xor((unsigned char*)c_plaintext_block, sizeof(c_plaintext_block), ctx->keyround, TAWNY_KEY_LENGTH_BYTES, (unsigned char*)c_plaintext_block, sizeof(c_plaintext_block))) {
+            	if (!xor((unsigned char*)c_plaintext_block, sizeof(c_plaintext_block), ctx->keyround, AKUMA_KEY_LENGTH_BYTES, (unsigned char*)c_plaintext_block, sizeof(c_plaintext_block))) {
                   	break;
             	}
 
-#if TAWNY_DEBUG
+#if AKUMA_DEBUG
             	printf("XOR Block:\t\t");
 
             	for (int i = 0; i < sizeof(c_plaintext_block); ++i)
@@ -400,7 +400,7 @@ unsigned int Tawny_Encrypt(Tawny_CTX * ctx) {
                   	}
             	}
 
-#if TAWNY_DEBUG
+#if AKUMA_DEBUG
             	printf("Current Matrix:\n");
             	show_matrix(&ctx->matrix);
             	putchar('\n');
@@ -447,7 +447,7 @@ unsigned int Tawny_Encrypt(Tawny_CTX * ctx) {
                   	ctx->matrix.table[r][4] = val;
             	}
 
-#if TAWNY_DEBUG
+#if AKUMA_DEBUG
             	printf("Rotated Matrix:\n");
             	show_matrix(&ctx->matrix);
             	putchar('\n');
@@ -477,12 +477,12 @@ unsigned int Tawny_Encrypt(Tawny_CTX * ctx) {
 
 
 
-unsigned int Tawny_Decrypt(Tawny_CTX * ctx) {
-#if TAWNY_DEBUG
+unsigned int Akuma_Decrypt(Akuma_CTX * ctx) {
+#if AKUMA_DEBUG
     	printf("\n\n===== DECRYPTION =====\n\n");
 #endif
 
-#if TAWNY_DEBUG
+#if AKUMA_DEBUG
         printf("Cipher Key:\t\t");
         print_bytes(ctx->key, sizeof(ctx->key));
 
@@ -527,14 +527,14 @@ unsigned int Tawny_Decrypt(Tawny_CTX * ctx) {
       	}
 
       	size_t ciphertext_len = (size_t)ctx->ciphertext_len;
-      	size_t block_size = TAWNY_BLOCK_SIZE_BYTES;
+      	size_t block_size = AKUMA_BLOCK_SIZE_BYTES;
       	size_t nmemb = ciphertext_len / block_size;
-      	size_t total_size = ((sizeof(unsigned char) * TAWNY_BLOCK_SIZE_BYTES) * nmemb);
+      	size_t total_size = ((sizeof(unsigned char) * AKUMA_BLOCK_SIZE_BYTES) * nmemb);
       	size_t matrix_columns = ctx->matrix.columns;
       	size_t matrix_rows = ctx->matrix.rows;
       	size_t pos = 0;
 
-      	char c_ciphertext_block[TAWNY_BLOCK_SIZE_BYTES];
+      	char c_ciphertext_block[AKUMA_BLOCK_SIZE_BYTES];
 
       	ctx->plaintext = malloc(total_size);
 
@@ -543,7 +543,7 @@ unsigned int Tawny_Decrypt(Tawny_CTX * ctx) {
 	  	memset(c_ciphertext_block, '\0', sizeof(c_ciphertext_block));
 		memcpy(c_ciphertext_block, ctx->ciphertext + (block_size * d), sizeof(c_ciphertext_block));
 
-#if TAWNY_DEBUG
+#if AKUMA_DEBUG
             	printf("\n\n\t\tBlock %d ~\n\n", d);
             	printf("\nCurrent Block:  \t\t");
 
@@ -571,7 +571,7 @@ unsigned int Tawny_Decrypt(Tawny_CTX * ctx) {
             	}
 
 
-#if TAWNY_DEBUG
+#if AKUMA_DEBUG
             	printf("Current Matrix:\n");
             	show_matrix(&ctx->matrix);
             	putchar('\n');
@@ -621,7 +621,7 @@ unsigned int Tawny_Decrypt(Tawny_CTX * ctx) {
 
 
 
-#if TAWNY_DEBUG
+#if AKUMA_DEBUG
             	printf("Unrotated Matrix:\n");
             	show_matrix(&ctx->matrix);
             	putchar('\n');
@@ -641,11 +641,11 @@ unsigned int Tawny_Decrypt(Tawny_CTX * ctx) {
 
 /* XOR CURRENT KEYROUND & "PLAINTEXT" MEMORY -> "PLAINTEXT" */
 
-            	if (!xor((unsigned char*)c_ciphertext_block, sizeof(c_ciphertext_block), ctx->keyround, TAWNY_KEY_LENGTH_BYTES, (unsigned char*)c_ciphertext_block, sizeof(c_ciphertext_block))) {
+            	if (!xor((unsigned char*)c_ciphertext_block, sizeof(c_ciphertext_block), ctx->keyround, AKUMA_KEY_LENGTH_BYTES, (unsigned char*)c_ciphertext_block, sizeof(c_ciphertext_block))) {
                   	break;
             	}
 
-#if TAWNY_DEBUG
+#if AKUMA_DEBUG
             	printf("De-Ciphered text Block:\t\t");
 	    	print_bytes((unsigned char*)c_ciphertext_block, sizeof(c_ciphertext_block));
             	putchar('\n');
@@ -656,7 +656,7 @@ unsigned int Tawny_Decrypt(Tawny_CTX * ctx) {
 			ctx->plaintext[i + (block_size * d)] = c_ciphertext_block[i];
 	  	}
 
-          	if (!xor(ctx->keyround, sizeof(ctx->keyround), ctx->keyround, TAWNY_KEY_LENGTH_BYTES, (unsigned char*)c_ciphertext_block, sizeof(c_ciphertext_block))) {
+          	if (!xor(ctx->keyround, sizeof(ctx->keyround), ctx->keyround, AKUMA_KEY_LENGTH_BYTES, (unsigned char*)c_ciphertext_block, sizeof(c_ciphertext_block))) {
 			break;
 		}
 
