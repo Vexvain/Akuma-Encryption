@@ -1,7 +1,3 @@
-Hello, World!
-Thanks for trying out my encryption :)
-Check out some of my other repos on github too!
+Try Harder...
 
-Author:    ripmeep
-GitHub:    https://github.com/ripmeep
-Instagram: @rip.meep
+Thanks for trying out my encryption :)
