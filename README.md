@@ -36,6 +36,7 @@ Example:
 The program then reads the plaintext and encrypts it using the key. <br/>
 
 This program generates a random initialization vector, which you need to keep hold of if you're manually using the `akuma.h` header file. <br/>
+
 **This example program does it automatically.** <br/>
 
 It will save the encrypted text (ciphertext) to your specified output filename (third argument) and puts the initialization vector as the last 32 bytes of the ciphertext for the decryption program to use. It is important to keep the key and initialization vector when encrypting. If you are using the example programs, do not edit the generated ciphertext file after encryption, or you will not be able to decrypt it.
