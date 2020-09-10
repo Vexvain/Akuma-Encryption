@@ -17,7 +17,9 @@ ____________________________________________
     
 # Usage
 `Code/encrypt.c` <br/>
+
 **AND** <br/>
+
 `Code/decrypt.c` are examples on how to encrypt and decrypt data using this cipher.
 
 
@@ -39,7 +41,11 @@ This program generates a random initialization vector, which you need to keep ho
 
 **This example program does it automatically.** <br/>
 
-It will save the encrypted text (ciphertext) to your specified output filename (third argument) and puts the initialization vector as the last 32 bytes of the ciphertext for the decryption program to use. It is important to keep the key and initialization vector when encrypting. If you are using the example programs, do not edit the generated ciphertext file after encryption, or you will not be able to decrypt it.
+It will save the encrypted text (*ciphertext*) to your specified output filename (*third argument*) and puts the initialization vector as the last 32 bytes of the *ciphertext* for the decryption program to use. <br/>
+
+It is important to keep the key and initialization vector when encrypting. <br/>
+
+If you are using the example programs, do not edit the generated *ciphertext* file after encryption, or you will not be able to decrypt it. <br/>
 
 To decrypt the ciphertext file, use: `./decrypt [CIPHERTEXT FILE] [KEY FILE] [OUT FILE]`. 
 
