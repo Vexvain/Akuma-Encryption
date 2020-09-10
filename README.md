@@ -41,7 +41,7 @@ This program generates a random initialization vector, which you need to keep ho
 
 **This example program does it automatically.** <br/>
 
-It will save the encrypted text (***ciphertext***) to your specified output filename (*third argument*) and puts the initialization vector as the last 32 bytes of the ***ciphertext*** for the decryption program to use. <br/>
+It will save the encrypted text (***ciphertext***) to your specified output filename (***third argument***) and puts the initialization vector as the last 32 bytes of the ***ciphertext*** for the decryption program to use. <br/>
 
 It is important to keep the key and initialization vector when encrypting. <br/>
 
