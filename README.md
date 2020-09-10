@@ -56,9 +56,9 @@ Here's an example:
 The program then reads the ***ciphertext*** file and decrypts it using the key. <br/>
 It saves the decrypted text to `decrypted.txt` and is readable again.
 
-# This is a test version #
+# TEST VERSION #
+TODO:
+- Add options for base64 encoding.
 
-TODO: Add options for base64 encoding.
-
-TODO: Provide alternative for manual pkcs#7 padding (pkcs7pad())
+- Provide alternative for manual pkcs#7 padding (pkcs7pad())
 
