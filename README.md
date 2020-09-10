@@ -41,19 +41,19 @@ This program generates a random initialization vector, which you need to keep ho
 
 **This example program does it automatically.** <br/>
 
-It will save the encrypted text (*ciphertext*) to your specified output filename (*third argument*) and puts the initialization vector as the last 32 bytes of the *ciphertext* for the decryption program to use. <br/>
+It will save the encrypted text (***ciphertext***) to your specified output filename (*third argument*) and puts the initialization vector as the last 32 bytes of the ***ciphertext*** for the decryption program to use. <br/>
 
 It is important to keep the key and initialization vector when encrypting. <br/>
 
-If you are using the example programs, do not edit the generated *ciphertext* file after encryption, or you will not be able to decrypt it. <br/>
+If you are using the example programs, do not edit the generated ***ciphertext*** file after encryption, or you will not be able to decrypt it. <br/>
 
-To decrypt the ciphertext file, use: `./decrypt [CIPHERTEXT FILE] [KEY FILE] [OUT FILE]`. 
+To decrypt the ***ciphertext*** file, use: `./decrypt [CIPHERTEXT FILE] [KEY FILE] [OUT FILE]`. 
 
 Here's an example:
 
     $ ./decrypt  encrypted.bin  Files/key.bin  decrypted.txt
     
-The program then reads the ciphertext file and decrypts it using the key. <br/>
+The program then reads the ***ciphertext*** file and decrypts it using the key. <br/>
 It saves the decrypted text to `decrypted.txt` and is readable again.
 
 # This is a test version #
