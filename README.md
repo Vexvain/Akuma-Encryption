@@ -1,4 +1,4 @@
-# Symmetric Encryption
+# Akuma Encryption
 
 A custom symmetric encryption algorithm I created. <br/>
 
