@@ -1,6 +1,6 @@
 # Akuma Encryption
 
-A custom symmetric encryption algorithm I created. <br/>
+A custom symmetric encryption algorithm. <br/>
 
 Use it to make plaintext unreadable by encrypting it with a key. <br/>
 
